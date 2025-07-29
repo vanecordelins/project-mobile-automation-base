@@ -1,0 +1,18 @@
+{
+  "name": "mobile-automation-project",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "wdio run wdio.conf.mjs",
+    "report": "allure generate reports/allure-results --clean -o reports/allure-report && allure open reports/allure-report"
+  },
+  "devDependencies": {
+    "@wdio/cli": "^8.25.2",
+    "@wdio/cucumber-framework": "^8.25.2",
+    "@wdio/appium-service": "^8.25.2",
+    "@wdio/allure-reporter": "^8.25.2",
+    "appium": "^2.0.0",
+    "chai": "^4.3.7",
+    "allure-commandline": "^2.24.0",
+    "pactum": "^2.0.0"
+  }
+}
