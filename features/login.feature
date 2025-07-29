@@ -1,7 +1,7 @@
-Feature: Validação de funcionalidades principais
+Feature: Core functionality validation
 
-  Scenario: Login com credenciais válidas
-    Given o usuário está na tela de login
-    When ele preenche o campo de usuário e senha corretamente
-    And clica no botão de login
-    Then ele deve ser redirecionado para a tela principal
+  Scenario: Login with valid credentials
+    Given I am on the login screen
+    When I enter a valid username and password
+    And I click the login button
+    Then I should be redirected to the main screen

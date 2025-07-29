@@ -1,0 +1,14 @@
+[
+  {
+    "inputText": "WebdriverIO test",
+    "switch": true,
+    "dropdown": "webdriver.io is awsome",
+    "button": "Active"
+  },
+  {
+    "inputText": "Appium validation",
+    "switch": false,
+    "dropdown": "Appium is awsome",
+    "button": "Inactive"
+  }
+]
