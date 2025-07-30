@@ -4,45 +4,34 @@ on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ]
 
 jobs:
-  android-tests:
+  test:
     runs-on: ubuntu-latest
+    timeout-minutes: 35
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: '20'
 
       - name: Install dependencies
-        run: npm ci
-
-      - name: Set up Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: "temurin"
-          java-version: "17"
+        run: |
+          npm install
 
       - name: Set up Android SDK
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 30
-          target: google_apis
+          target: default
           arch: x86_64
-          script: echo "Android SDK ready"
-
-      - name: Start Appium server
-        run: npm install
-          npm install -g appium
-          nohup appium --base-path /wd/hub --port 4723 > appium.log 2>&1 &
-
-      - name: Wait for Appium to start
-        run: sleep 10
-
-      - name: Run tests
-        run: npx wdio run wdio.conf.mjs
+          profile: Nexus 6
+          script: |
+            adb devices
+            adb wait-for-device
+            adb shell input keyevent 82 &
+            npx wdio run wdio.conf.mjs
