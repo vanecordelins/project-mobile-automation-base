@@ -1,10 +1,18 @@
 class SignUpPage {
-  get screen() {
-    return $('~SignUp-screen');
+ 
+  get loginButton() {
+    return $('android=new UiSelector().text("Login")');
   }
 
-  async isDisplayed() {
-    return await this.screen.isDisplayed();
+  get signUpLink() {
+    return $('android=new UiSelector().text("Sign up")');
+  }
+
+  async open() {
+    await this.loginButton.waitForDisplayed();
+    await this.loginButton.click();
+    await this.signUpLink.waitForDisplayed();
+    await this.signUpLink.click();
   }
 
   get emailInput() {
@@ -24,7 +32,7 @@ class SignUpPage {
   }
 
   get confirmPasswordInput() {
-    return $('~input-confirm-password');
+    return $('~input-repeat-password');
   }
 
   async confirmPassword(password) {
@@ -32,24 +40,22 @@ class SignUpPage {
   }
 
   get signUpButton() {
-    return $('android=new UiSelector().text("Sign Up")');
+    return $('android=new UiSelector().description("button-SIGN UP")');
   }
 
-  async clickSignUp() {
+  async submitForm() {
     await this.signUpButton.click();
   }
 
-  get errorMessage() {
-    return $('android=new UiSelector().resourceId("error-message")'); // ajuste se necessário
-  }
-
-  async getErrorMessage() {
-    return await this.errorMessage.getText();
-  }
-
-  async goHome() {
+  async didLoginSucceed() {
     const homeButton = $('android=new UiSelector().text("Home")');
-    await homeButton.click();
+    return await homeButton.isDisplayed();
+  }
+
+  async getErrorMessage(expectedText) {
+    const selector = $(`android=new UiSelector().text("${expectedText}")`);
+    await selector.waitForDisplayed({ timeout: 3000 });
+    return await selector.getText();
   }
 }
 
