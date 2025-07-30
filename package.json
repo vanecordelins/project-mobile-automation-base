@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "test": "wdio run wdio.conf.mjs",
-    "report": "allure generate reports/allure-results --clean -o reports/allure-report && allure open reports/allure-report"
+    "report": "allure generate reports/allure-results --clean -o reports/allure-report && allure open reports/allure-report",
+    "appium": "appium"
   },
   "devDependencies": {
     "@wdio/allure-reporter": "^8.25.2",

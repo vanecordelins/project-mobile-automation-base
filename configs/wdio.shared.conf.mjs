@@ -5,14 +5,13 @@ export const config = {
   maxInstances: 1,
   capabilities: [{
     platformName: 'Android',
-
     'appium:deviceName': 'Android Emulator',
     'appium:automationName': 'UiAutomator2',
-    'appium:app': 'C:\\Users\\vanec\\OneDrive\\Documentos\\projeto-automacao\\apps\\android.wdio.native.app.v1.0.8.apk',
+    'appium:app': 'apps\\android.wdio.native.app.v1.0.8.apk',
     'appium:autoGrantPermissions': true
   }],
   logLevel: 'info',
-  reporters: ['spec'], // ✅ adicionado aqui
+  reporters: ['spec'],
   framework: 'cucumber',
   cucumberOpts: {
     require: ['./steps/**/*.js'],
