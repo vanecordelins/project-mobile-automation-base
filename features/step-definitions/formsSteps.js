@@ -1,6 +1,8 @@
 import { Given, When, Then } from '@wdio/cucumber-framework';
 import formsPage from '../pages/FormsPage.js';
-import formData from '../features/data/formData.json';
+import { readFileSync } from 'fs';
+const formData = JSON.parse(readFileSync(new URL('../data/formData.json', import.meta.url)));
+
 
 Given('I am on the Forms screen', async () => {
   await formsPage.open();
