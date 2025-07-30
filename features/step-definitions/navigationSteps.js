@@ -1,44 +1,61 @@
 import { Given, When, Then } from '@wdio/cucumber-framework';
 import HomePage from '../pages/HomePage.js';
+import LoginPage from '../pages/LoginPage.js';
 import SignUpPage from '../pages/SignUpPage.js';
-import SwipePage from '../pages/SwipePage.js';
+import FormsPage from '../pages/FormsPage.js';
+import NavigationPage from '../pages/NavigationPage.js';
 
+// Home
 Given('I am on the Home screen', async () => {
-  await HomePage.open();
+  await expect(await HomePage.isDisplayed()).toBeTruthy();
 });
 
-When('I click on the {string} button', async (btnText) => {
-  await HomePage.clickButton(btnText);
+When('I click on the Login button', async () => {
+  await LoginPage.open();
+});
+
+Then('I click on the Sign Up button', async () => {
+  await SignUpPage.open();
 });
 
 Then('I should see the sign up page', async () => {
-  expect(await SignUpPage.isDisplayed()).toBeTruthy();
+  const title = $('android=new UiSelector().text("Login / Sign up Form")');
+  await expect(title).toBeDisplayed();
 });
 
+// Navegação reversa
 Given('I am on the sign up page', async () => {
   await SignUpPage.open();
 });
 
 When('I click on the Home button', async () => {
-  await SignUpPage.clickHome();
+  await HomePage.clickHome();
 });
 
 Then('I should be back on the home screen', async () => {
-  expect(await HomePage.isDisplayed()).toBeTruthy();
+  await expect(await HomePage.isDisplayed()).toBeTruthy();
 });
 
+// Forms
+Given('I am on the Forms screen', async () => {
+  await FormsPage.open();
+});
+
+// Swipe
 Given('I am on the Swipe page', async () => {
-  await SwipePage.open();
+  const swipeTab = $('android=new UiSelector().text("Swipe")');
+  await swipeTab.waitForDisplayed();
+  await swipeTab.click();
 });
 
-Then('I swipe Right', async () => {
-  await SwipePage.swipeRight();
+When('I swipe Right', async () => {
+  await NavigationPage.swipeRight();
 });
 
 Then('comunnity informations are displayed', async () => {
-  expect(await SwipePage.isCommunityCardVisible()).toBeTruthy();
+  await expect(await NavigationPage.isCommunityCardVisible()).toBeTruthy();
 });
 
 Then('JS Foundation informations are displayed', async () => {
-  expect(await SwipePage.isJSFoundationVisible()).toBeTruthy();
+  await expect(await NavigationPage.isJSFoundationVisible()).toBeTruthy();
 });
