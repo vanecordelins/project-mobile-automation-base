@@ -1,24 +1,24 @@
 import { Given, When, Then } from '@wdio/cucumber-framework';
 import formsPage from '../pages/FormsPage.js';
 import { readFileSync } from 'fs';
-const formData = JSON.parse(readFileSync(new URL('../data/formData.json', import.meta.url)));
 
+const formData = JSON.parse(readFileSync(new URL('../data/formData.json', import.meta.url)));
 
 Given('I am on the Forms screen', async () => {
   await formsPage.open();
 });
 
 When('I add data at the Input Field', async () => {
-  await formsPage.fillInputField('Test input');
+  await formsPage.fillInputField('Testing input field');
 });
 
 Then('I should see the correct data displayed at the You have typed field', async () => {
   const result = await formsPage.getTypedText();
-  expect(result).toContain('Test input');
+  expect(result).toContain('Testing input field');
 });
 
 When('I select an option from the Dropdown', async () => {
-  await formsPage.selectDropdownOption('webdriver.io is awsome');
+  await formsPage.selectDropdownOption('webdriver.io is awesome');
 });
 
 When('I click at the Active button', async () => {
@@ -28,6 +28,7 @@ When('I click at the Active button', async () => {
 Then('I should see a popup with the message {string}', async (message) => {
   const popupText = await formsPage.getPopupText();
   expect(popupText).toContain(message);
+  await formsPage.confirmPopup();
 });
 
 Given('I access the Forms screen', async () => {
@@ -49,14 +50,18 @@ Then('I fill the form using the data from the JSON file', async () => {
 
     const switchLabel = await formsPage.getSwitchMessage();
     const expected = data.switch
-      ? 'Click to turn the swicth OFF'
-      : 'Click to turn the swicth ON';
+      ? 'Click to turn the switch OFF'
+      : 'Click to turn the switch ON';
     expect(switchLabel).toBe(expected);
 
     await formsPage.selectDropdownOption(data.dropdown);
 
     await formsPage.clickButton(data.button);
+
+    await formsPage.popupMessage.waitForDisplayed({ timeout: 5000 });
     const popup = await formsPage.getPopupText();
     expect(popup).toContain(`This button is ${data.button.toLowerCase()}`);
+    await formsPage.confirmPopup();
   }
 });
+

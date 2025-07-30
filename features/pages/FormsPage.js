@@ -1,46 +1,40 @@
 class FormsPage {
-  // Navigation: open the Forms screen
   get formsButton() {
     return $('android=new UiSelector().text("Forms")');
   }
 
   async open() {
-    await driver.launchApp();
     await this.formsButton.waitForDisplayed();
     await this.formsButton.click();
   }
 
-  // Input Field
   get inputField() {
-    return $('android=new UiSelector().resourceId("RNE__Input__text-input")');
+    return $('~text-input');
   }
 
   async fillInputField(text) {
     await this.inputField.setValue(text);
   }
 
-  // Typed result field
   get typedTextField() {
-    return $('android=new UiSelector().description("input-text-result")');
+    return $('~input-text-result');
   }
 
   async getTypedText() {
     return await this.typedTextField.getText();
   }
 
-  // Switch
   get switchToggle() {
-    return $('android=new UiSelector().description("switch")');
+    return $('~switch');
   }
 
-  get switchMessage() {
-    // We only know the ON message, but we assume the OFF message replaces it
-    return $('android=new UiSelector().textContains("Click to turn the switch")');
+  get switchStatusMessage() {
+    return $('~switch-text');
   }
 
   async isSwitchOn() {
-    const message = await this.switchMessage.getText();
-    return message.includes('OFF'); // message shows what the next action would be
+    const message = await this.switchStatusMessage.getText();
+    return message.includes('OFF');
   }
 
   async toggleSwitch() {
@@ -48,12 +42,11 @@ class FormsPage {
   }
 
   async getSwitchMessage() {
-    return await this.switchMessage.getText();
+    return await this.switchStatusMessage.getText();
   }
 
-  // Dropdown
   get dropdownToggle() {
-    return $('//android.widget.TextView[@text="󰅀"]'); // icon trigger
+    return $('android=new UiSelector().resourceId("text_input")');
   }
 
   async selectDropdownOption(optionText) {
@@ -63,43 +56,28 @@ class FormsPage {
     await option.click();
   }
 
-  // Buttons
-  get activeButton() {
-    return $('android=new UiSelector().text("Active")');
-  }
-
-  get inactiveButton() {
-    return $('android=new UiSelector().text("Inactive")');
-  }
-
   async clickButton(type) {
-    if (type === 'Active') {
-      await this.activeButton.click();
-    } else {
-      await this.inactiveButton.click();
-    }
+    const button = $(`android=new UiSelector().text("${type}")`);
+    await button.waitForDisplayed();
+    await button.click();
   }
 
-  // Pop-up
   get popupMessage() {
-    return $('id=android:id/message');
+    return $('android=new UiSelector().resourceId("android:id/message")');
   }
 
   async getPopupText() {
+    await this.popupMessage.waitForDisplayed({ timeout: 5000 });
     return await this.popupMessage.getText();
   }
 
-  // (Optional) Buttons inside alert pop-up
-  get askMeLaterButton() {
-    return $('id=android:id/button3');
-  }
-
-  get cancelButton() {
-    return $('id=android:id/button2');
-  }
-
   get okButton() {
-    return $('id=android:id/button1');
+    return $('android=new UiSelector().resourceId("android:id/button1")');
+  }
+
+  async confirmPopup() {
+    await this.okButton.click();
   }
 }
+
 export default new FormsPage();
