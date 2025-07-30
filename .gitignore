@@ -1,7 +1,7 @@
-# Compiled class file
+# Compiled class files
 *.class
 
-# Log file
+# Log files
 *.log
 
 # BlueJ files
@@ -19,15 +19,46 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# Virtual machine crash logs
 hs_err_pid*
 replay_pid*
+
+# Test reports
 cucumber_report.json
+*.xml
+*.html
+
 # Node.js
 node_modules/
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 package-lock.json
+yarn.lock
+
+# Environment files
 .env
+.env.*
+
+# Build output
 dist/
 coverage/
 build/
+out/
+target/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.iml
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Appium/WebdriverIO specific
+output/
+allure-results/
+allure-report/
+screenshots/
+errorShots/
