@@ -1,25 +1,29 @@
 class LoginPage {
-  // Botão que leva para a tela de login
   get loginMenuButton() {
     return $('android=new UiSelector().text("Login")');
   }
 
-  // Campos de input
   get emailInput() {
-    return $('~input-email'); // usando content-desc conforme padrão do projeto
+    return $('~input-email');
   }
 
   get passwordInput() {
     return $('~input-password');
   }
 
-  // Botão de login
   get loginButton() {
-    return $('android=new UiSelector().className("android.view.ViewGroup").instance(16)');
+    return $('~button-LOGIN');
+  }
+
+  get successMessage() {
+    return $('android=new UiSelector().resourceId("android:id/message")');
+  }
+
+  get okButton() {
+    return $('android=new UiSelector().resourceId("android:id/button1")');
   }
 
   async open() {
-    await driver.launchApp();
     await this.loginMenuButton.waitForDisplayed();
     await this.loginMenuButton.click();
   }
@@ -27,7 +31,6 @@ class LoginPage {
   async login(email, password) {
     await this.emailInput.setValue(email);
     await this.passwordInput.setValue(password);
-    await this.loginButton.click();
   }
 
   async submitLogin() {
@@ -35,8 +38,11 @@ class LoginPage {
   }
 
   async isLoggedIn() {
-    const homeScreen = $('~home-screen'); // se usar outro identificador, me avisa
-    return homeScreen.isDisplayed();
+    await this.successMessage.waitForDisplayed({ timeout: 5000 });
+    const text = await this.successMessage.getText();
+    const isSuccess = text.includes('You are logged in!');
+    if (isSuccess) await this.okButton.click();
+    return isSuccess;
   }
 }
 
