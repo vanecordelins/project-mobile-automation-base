@@ -4,7 +4,7 @@ import { readFileSync } from 'fs';
 
 const formData = JSON.parse(readFileSync(new URL('../data/formData.json', import.meta.url)));
 
-Given('I am on the Forms screen', async () => {
+Given('I access the Forms screen', async () => {
   await formsPage.open();
 });
 
@@ -31,9 +31,6 @@ Then('I should see a popup with the message {string}', async (message) => {
   await formsPage.confirmPopup();
 });
 
-Given('I access the Forms screen', async () => {
-  await formsPage.open();
-});
 
 Then('I fill the form using the data from the JSON file', async () => {
   for (const data of formData) {

@@ -5,7 +5,7 @@ export const config = {
   maxInstances: 1,
   capabilities: [{
     platformName: 'Android',
-    //'appium:platformVersion': '4.1.2',
+
     'appium:deviceName': 'Android Emulator',
     'appium:automationName': 'UiAutomator2',
     'appium:app': 'C:\\Users\\vanec\\OneDrive\\Documentos\\projeto-automacao\\apps\\android.wdio.native.app.v1.0.8.apk',
