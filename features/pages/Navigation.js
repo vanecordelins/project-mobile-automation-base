@@ -1,18 +1,26 @@
 class NavigationPage {
-  get homeTab() { return $('~Home'); }
-  get webviewTab() { return $('~Webview'); }
-  get loginTab() { return $('~Login'); }
-  get formsTab() { return $('~Forms'); }
-  get swipeTab() { return $('~Swipe'); }
-
-  async openTab(tabName) {
-    await $(`~${tabName}`).click();
+  // Botões de navegação com UiSelector
+  get homeTab() {
+    return $('android=new UiSelector().text("Home")');
   }
 
-  async isTabDisplayed(tabName) {
-    return $(`~${tabName}-screen`).isDisplayed(); // ajuste conforme sua tela
+  get webviewTab() {
+    return $('android=new UiSelector().text("Webview")');
   }
 
+  get loginTab() {
+    return $('android=new UiSelector().text("Login").instance(1)');
+  }
+
+  get formsTab() {
+    return $('android=new UiSelector().text("Forms")');
+  }
+
+  get swipeTab() {
+    return $('android=new UiSelector().text("Swipe")');
+  }
+
+  // Métodos de navegação
   async goToHome() {
     await this.homeTab.click();
   }
@@ -31,6 +39,10 @@ class NavigationPage {
 
   async goToSwipe() {
     await this.swipeTab.click();
+  }
+
+  async isTabDisplayed(tabName) {
+    return $(`~${tabName}-screen`).isDisplayed(); // ajustável conforme seus IDs reais
   }
 }
 

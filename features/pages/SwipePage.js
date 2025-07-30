@@ -3,9 +3,27 @@ class SwipePage {
   get carousel() { return $('~carousel'); }
   get cardTitles() { return $$('~card-title'); }
 
+  // Elementos para validação
+  get greatCommunityText() {
+    return $('android=new UiSelector().text("GREAT COMMUNITY")');
+  }
+
+  get jsFoundationText() {
+    return $('android=new UiSelector().text("JS.FOUNDATION")');
+  }
+
+  // Métodos usados nos steps para validação
+  async isCommunityCardVisible() {
+    return this.greatCommunityText.isDisplayed();
+  }
+
+  async isJSFoundationVisible() {
+    return this.jsFoundationText.isDisplayed();
+  }
+
   async open() {
-    await driver.launchApp(); // ou navegue direto se já estiver no app
-    await $('~Swipe').click(); // botão/menu para acessar a tela de swipe
+    await driver.launchApp();
+    await $('~Swipe').click();
   }
 
   async swipeLeft() {
@@ -28,6 +46,10 @@ class SwipePage {
 
   async getVisibleCardTitles() {
     return Promise.all(this.cardTitles.map(card => card.getText()));
+  }
+
+  async isTextVisible(element) {
+    return element.isDisplayed();
   }
 }
 
