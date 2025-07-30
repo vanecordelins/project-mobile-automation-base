@@ -5,7 +5,6 @@ import SignUpPage from '../pages/SignUpPage.js';
 import FormsPage from '../pages/FormsPage.js';
 import NavigationPage from '../pages/NavigationPage.js';
 
-// Home
 Given('I am on the Home screen', async () => {
   await expect(await HomePage.isDisplayed()).toBeTruthy();
 });
@@ -23,7 +22,7 @@ Then('I should see the sign up page', async () => {
   await expect(title).toBeDisplayed();
 });
 
-// Navegação reversa
+
 Given('I am on the sign up page', async () => {
   await SignUpPage.open();
 });
@@ -36,12 +35,10 @@ Then('I should be back on the home screen', async () => {
   await expect(await HomePage.isDisplayed()).toBeTruthy();
 });
 
-// Forms
 Given('I am on the Forms screen', async () => {
   await FormsPage.open();
 });
 
-// Swipe
 Given('I am on the Swipe page', async () => {
   const swipeTab = $('android=new UiSelector().text("Swipe")');
   await swipeTab.waitForDisplayed();

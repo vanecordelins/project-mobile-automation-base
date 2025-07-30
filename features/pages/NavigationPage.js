@@ -1,5 +1,4 @@
 class NavigationPage {
-  // Seletores para os textos que você verifica
   get communityTitle() {
     return $('android=new UiSelector().text("GREAT COMMUNITY")');
   }
@@ -14,7 +13,7 @@ class NavigationPage {
     const endX = width * 0.2;
     const y = height / 2;
 
-    // Swipe mais lento usando pointer actions
+    
     await driver.performActions([
       {
         type: 'pointer',
@@ -23,17 +22,16 @@ class NavigationPage {
         actions: [
           { type: 'pointerMove', duration: 0, x: Math.floor(startX), y: Math.floor(y) },
           { type: 'pointerDown', button: 0 },
-          { type: 'pause', duration: 500 }, // pausa antes do swipe
-          { type: 'pointerMove', duration: 1000, x: Math.floor(endX), y: Math.floor(y) }, // swipe lento (1s)
-          { type: 'pause', duration: 500 }, // pausa depois do swipe
+          { type: 'pause', duration: 500 }, 
+          { type: 'pointerMove', duration: 1000, x: Math.floor(endX), y: Math.floor(y) }, 
+          { type: 'pause', duration: 500 }, 
           { type: 'pointerUp', button: 0 },
         ],
       },
     ]);
 
     await driver.releaseActions();
-
-    // Pausa extra para animação e carregamento do conteúdo
+  
     await driver.pause(1500);
   }
 

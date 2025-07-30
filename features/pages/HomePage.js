@@ -1,16 +1,13 @@
 class HomePage {
-  // Indicador de que a Home está visível (texto "WEBDRIVER")
   get homeScreenIndicator() {
     return $('android=new UiSelector().text("WEBDRIVER")');
   }
 
-  // Botão "Home", usado para retornar à tela principal
   get homeButton() {
     return $('android=new UiSelector().text("Home")');
   }
 
   async open() {
-    // Mantido vazio, já que a Home é a tela inicial
   }
 
   async clickButton(btnText) {
