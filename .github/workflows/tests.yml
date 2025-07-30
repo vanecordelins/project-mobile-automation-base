@@ -37,7 +37,7 @@ jobs:
           script: echo "Android SDK ready"
 
       - name: Start Appium server
-        run: |
+        run: npm install
           npm install -g appium
           nohup appium --base-path /wd/hub --port 4723 > appium.log 2>&1 &
 
