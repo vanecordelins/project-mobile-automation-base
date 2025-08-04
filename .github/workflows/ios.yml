@@ -8,7 +8,11 @@ on:
   workflow_dispatch:
 
 jobs:
+  # Temporariamente desativado — aguardando o arquivo .app do app iOS
+  # Assim que o app iOS estiver disponível em apps/wdiodemoapp.app,
+  # basta remover a linha if false abaixo para reativar
   test-ios:
+    if: false 
     runs-on: macos-latest
     timeout-minutes: 40
 
