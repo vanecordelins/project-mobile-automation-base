@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "test": "wdio run wdio.conf.mjs",
+    "test": "cross-env PLATFORM=android wdio run wdio.conf.mjs",
+    "test:feature": "cross-env PLATFORM=android wdio run wdio.conf.mjs --spec",
+    "test:tag": "cross-env PLATFORM=android wdio run wdio.conf.mjs --cucumberOpts.tagExpression",
+
     "test:android": "cross-env PLATFORM=android wdio run wdio.conf.mjs",
     "test:ios": "cross-env PLATFORM=ios wdio run wdio.conf.mjs",
-    "test:feature": "cross-env PLATFORM=android wdio run wdio.conf.mjs --spec",
+
     "report": "allure generate reports/allure-results --clean -o reports/allure-report && allure open reports/allure-report",
     "appium": "appium"
   },
@@ -21,8 +24,8 @@
     "appium": "^2.0.0",
     "appium-uiautomator2-driver": "^4.2.7",
     "chai": "^4.3.7",
-    "cross-env": "^7.0.3",
-    "pactum": "^2.0.0"
+    "pactum": "^2.0.0",
+    "cross-env": "^7.0.3"
   },
   "dependencies": {
     "@cucumber/cucumber": "^12.1.0"
