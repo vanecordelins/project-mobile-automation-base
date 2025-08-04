@@ -138,4 +138,4 @@ Relatórios Allure são gerados como artefatos ao final de cada execução.
 
 ## 👩‍💻 Autor
 
-Desenvolvido por [Vanessa Lins](https://github.com/vanessalins) 
+Desenvolvido por [Vanessa Lins](https://github.com/vanecordelins) 
