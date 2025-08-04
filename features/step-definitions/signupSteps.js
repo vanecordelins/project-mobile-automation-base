@@ -19,7 +19,7 @@ When('I confirm the password', async () => {
   await SignUpPage.confirmPassword('ValidPassword123');
 });
 
-When('I click to sing up', async () => {
+When('I click to sign up', async () => {
   await SignUpPage.submitForm();
 });
 

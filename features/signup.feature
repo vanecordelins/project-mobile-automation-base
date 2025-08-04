@@ -7,7 +7,7 @@ Feature: Sign up
     And I set an email
     And I set a password
     And I confirm the password
-    And I click to sing up
+    And I click to sign up
     Then I handle the success popup
     Then I login with the new signed up user
 
@@ -17,7 +17,7 @@ Feature: Sign up
     And I set an email
     And I set a password
     And I confirm the password with a different value
-    And I click to sing up
+    And I click to sign up
     Then I should see an error message "Please enter the same password"
 
   @negative 
@@ -26,5 +26,5 @@ Feature: Sign up
     And I set an email
     And I set an invalid password
     And I confirm the invalid password
-    And I click to sing up
+    And I click to sign up
     Then I should see an error message "Please enter at least 8 characters"
