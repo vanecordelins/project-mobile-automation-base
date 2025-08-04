@@ -18,15 +18,19 @@ Este projeto realiza testes automatizados em um aplicativo mobile (Android e iOS
 
 ```
 .
-├── apps/                    # APK e APP para Android/iOS
-├── features/                # Features em Gherkin
-│   ├── step-definitions/    # Steps Cucumber
-│   └── *.feature            # Cenários
-├── pages/                   # Page Objects
-├── utils/                   # Helpers utilitários
-├── reports/                 # Relatórios Allure
-├── wdio.conf.mjs            # Configuração WebDriverIO
-└── package.json             # Dependências e scripts
+├── .github/workflows/       # Workflows de CI (Android, iOS, unificado)
+├── apps/                    # Aplicativos Android e iOS usados nos testes
+├── configs/                 # Configurações compartilhadas (opcional)
+├── features/                # Testes automatizados
+│   ├── data/                # Massa de dados (JSON)
+│   ├── pages/               # Page Objects
+│   ├── step-definitions/    # Step definitions Cucumber
+│   └── *.feature            # Features escritas em Gherkin
+├── reports/                 # Resultados e relatórios Allure
+├── utils/                   # Helpers utilitários (screenshots, etc.)
+├── wdio.conf.mjs            # Configuração principal WebDriverIO
+├── package.json             # Scripts e dependências
+└── README.md
 ```
 
 ---
