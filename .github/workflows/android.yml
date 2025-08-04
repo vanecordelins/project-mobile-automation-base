@@ -14,14 +14,8 @@ jobs:
 
     env:
       PLATFORM: android
-      ANDROID_SDK_ROOT: $HOME/android-sdk
-      PATH: $HOME/android-sdk/platform-tools:$HOME/android-sdk/emulator:$HOME/android-sdk/cmdline-tools/latest/bin:$PATH
 
     steps:
-      - name: Ensure tar is available
-        run: |
-          command -v tar || (apt-get update && apt-get install -y tar)
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -36,34 +30,25 @@ jobs:
       - name: Install Allure CLI
         run: npm install -g allure-commandline
 
-      - name: Install Android SDK and Emulator
-        run: |
-          apt-get update && apt-get install -y unzip openjdk-11-jdk wget
-          wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
-          unzip cmdline-tools.zip -d $ANDROID_SDK_ROOT
-          mkdir -p $ANDROID_SDK_ROOT/cmdline-tools/latest
-          mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools/* $ANDROID_SDK_ROOT/cmdline-tools/latest
-          yes | sdkmanager --licenses
-          sdkmanager "platform-tools" "platforms;android-33" "system-images;android-33;google_apis;x86_64" "emulator"
-          echo "no" | avdmanager create avd -n test -k "system-images;android-33;google_apis;x86_64" --device "pixel"
-          $ANDROID_SDK_ROOT/emulator/emulator -avd test -no-audio -no-window &
-          adb wait-for-device
-          adb shell input keyevent 82
-          sleep 30
-
-      - name: Start Appium Server
-        run: |
-          npm run appium & npx wait-on http://localhost:4723/status
-
-      - name: Run Android Tests
-        run: npm run test:android
+      - name: Start Android Emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 33
+          target: google_apis
+          arch: x86_64
+          profile: pixel
+          disable-animations: true
+          script: |
+            adb shell input keyevent 82
+            npm run appium & npx wait-on http://localhost:4723/status
+            npm run test:android
 
       - name: Generate Allure Report
         if: always()
         run: npm run report
         continue-on-error: true
 
-      - name: Upload Allure Report (as artifact)
+      - name: Upload Allure Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
