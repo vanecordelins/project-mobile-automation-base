@@ -37,7 +37,7 @@ Este projeto realiza testes automatizados em um aplicativo mobile (Android e iOS
 
 ---
 
-## ⚙️ Requisitos
+## Requisitos
 
 - Node.js 20+
 - Appium 2.x (`npm install -g appium`)
@@ -46,7 +46,7 @@ Este projeto realiza testes automatizados em um aplicativo mobile (Android e iOS
 
 ---
 
-## 🚀 Como executar os testes
+## Como executar os testes
 
 ### Instalar dependências
 
@@ -93,19 +93,29 @@ npm run test:ios
 
 ---
 
-## Relatório Allure
+### Geração de Relatório com Allure
 
-Após os testes, o relatório pode ser gerado com:
+Após a execução dos testes, você pode gerar e visualizar os relatórios Allure:
+
+#### Gerar o relatório (uso em CI/CD ou local)
 
 ```bash
 npm run report
 ```
 
-> O relatório será aberto automaticamente no navegador padrão.
+> Gera os arquivos do relatório em `reports/allure-report`, **sem abrir o navegador**. Ideal para pipelines de integração contínua.
+
+#### Visualizar o relatório localmente
+
+```bash
+npm run report:open
+```
+
+> Gera o relatório e **abre automaticamente** no navegador local.
 
 ---
 
-## ⚙️ Execução em CI/CD (GitHub Actions)
+## Execução em CI/CD (GitHub Actions)
 
 O projeto conta com pipelines de integração contínua:
 

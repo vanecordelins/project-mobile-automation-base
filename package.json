@@ -9,7 +9,8 @@
     "test:browserstack": "wdio run configs/wdio.browserstack.conf.mjs",
     "test:feature": "cross-env PLATFORM=android wdio run configs/wdio.local.conf.mjs --spec",
     "test:tag": "cross-env PLATFORM=android wdio run configs/wdio.local.conf.mjs --cucumberOpts.tagExpression",
-    "report": "allure generate reports/allure-results --clean -o reports/allure-report && allure open reports/allure-report",
+    "report": "allure generate reports/allure-results --clean -o reports/allure-report",
+    "report:open": "npm run report && allure open reports/allure-report",
     "appium": "appium"
   },
   "devDependencies": {
