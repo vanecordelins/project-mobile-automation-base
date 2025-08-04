@@ -108,8 +108,7 @@ Isso abrirá automaticamente o navegador com o relatório gerado.
 Este projeto possui pipelines para execução automática no GitHub Actions:
 
 - `.github/workflows/android-tests.yml` → Executa testes Android em emulador
-- `.github/workflows/ios-tests.yml` → Executa testes iOS em simulador
-- `.github/workflows/matrix-tests.yml` → Executa testes em paralelo para Android e iOS
+- `.github/workflows/ios-tests.yml` → Executa testes iOS em simulador, atualmente desativada pois precisamos da versão correta do .app
 
 Relatórios Allure são gerados como artefatos ao final de cada execução.
 

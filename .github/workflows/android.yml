@@ -30,6 +30,12 @@ jobs:
       - name: Install Allure CLI
         run: npm install -g allure-commandline
 
+      - name: Workaround - Install libpulse.so.0 dependency manually
+        run: |
+          mkdir -p /usr/lib/x86_64-linux-gnu
+          curl -L -o /usr/lib/x86_64-linux-gnu/libpulse.so.0 https://github.com/vanesalins-ai/assets/raw/main/libpulse.so.0
+          chmod +x /usr/lib/x86_64-linux-gnu/libpulse.so.0
+
       - name: Start Android Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -39,7 +45,10 @@ jobs:
           profile: Nexus 6
           disable-animations: true
           emulator-options: "-no-snapshot -no-boot-anim -accel off -gpu swiftshader_indirect -memory 2048 -no-audio"
-          script: echo "Emulator started"
+          script: |
+            echo "Waiting for emulator to boot..."
+            adb wait-for-device
+            adb shell getprop sys.boot_completed
 
       - name: Start Appium Server
         run: |
