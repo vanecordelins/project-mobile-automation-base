@@ -28,7 +28,7 @@ jobs:
         run: npm ci
 
       - name: Run Android tests on BrowserStack
-        run: npx wdio run ./config/wdio.browserstack.conf.mjs
+        run: npx wdio run ./configs/wdio.browserstack.conf.mjs
 
       - name: Generate Allure Report
         if: always()
