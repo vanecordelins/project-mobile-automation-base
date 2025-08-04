@@ -43,7 +43,7 @@ jobs:
           npm run appium & npx wait-on http://localhost:4723/status
 
       - name: Run iOS Tests
-        run: npm test
+        run: npm run test:ios
 
       - name: Generate Allure Report
         if: always()
