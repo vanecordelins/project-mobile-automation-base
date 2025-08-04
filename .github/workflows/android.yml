@@ -14,7 +14,6 @@ jobs:
 
     env:
       PLATFORM: android
-      LD_LIBRARY_PATH: ${{ github.workspace }}/temp-libs
 
     steps:
       - name: Checkout repository
@@ -31,25 +30,13 @@ jobs:
       - name: Install Allure CLI
         run: npm install -g allure-commandline
 
-      - name: Download libpulse.so.0 to custom path
-        run: |
-          mkdir -p temp-libs
-          curl -L -o temp-libs/libpulse.so.0 https://github.com/vanesalins-ai/assets/raw/main/libpulse.so.0
-          chmod +x temp-libs/libpulse.so.0
-
       - name: Start Android Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          target: default
-          arch: x86_64
           profile: Nexus 6
           disable-animations: true
-          emulator-options: "-no-snapshot -no-boot-anim -accel off -gpu swiftshader_indirect -memory 2048 -no-audio"
-          script: |
-            echo "Waiting for emulator to boot..."
-            adb wait-for-device
-            adb shell getprop sys.boot_completed
+          script: echo "Emulator started"
 
       - name: Start Appium Server
         run: |
