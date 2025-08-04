@@ -1,11 +1,16 @@
+import allureReporter from '@wdio/allure-reporter';
+import { takeScreenshotAndAddToReport } from '../utils/screenshotHelper.js';
+
 class FormsPage {
   get formsButton() {
     return $('android=new UiSelector().text("Forms")');
   }
 
   async open() {
+    allureReporter.addStep('Opening Forms screen');
     await this.formsButton.waitForDisplayed();
     await this.formsButton.click();
+    await takeScreenshotAndAddToReport('Forms screen opened');
   }
 
   get inputField() {
@@ -13,7 +18,9 @@ class FormsPage {
   }
 
   async fillInputField(text) {
+    allureReporter.addStep('Filling input field');
     await this.inputField.setValue(text);
+    await takeScreenshotAndAddToReport('Input field filled');
   }
 
   get typedTextField() {
@@ -21,7 +28,10 @@ class FormsPage {
   }
 
   async getTypedText() {
-    return await this.typedTextField.getText();
+    allureReporter.addStep('Getting typed text from input');
+    const text = await this.typedTextField.getText();
+    await takeScreenshotAndAddToReport('Typed text retrieved');
+    return text;
   }
 
   get switchToggle() {
@@ -33,16 +43,23 @@ class FormsPage {
   }
 
   async isSwitchOn() {
+    allureReporter.addStep('Checking switch status');
     const message = await this.switchStatusMessage.getText();
+    await takeScreenshotAndAddToReport('Switch status retrieved');
     return message.includes('OFF');
   }
 
   async toggleSwitch() {
+    allureReporter.addStep('Toggling switch');
     await this.switchToggle.click();
+    await takeScreenshotAndAddToReport('Switch toggled');
   }
 
   async getSwitchMessage() {
-    return await this.switchStatusMessage.getText();
+    allureReporter.addStep('Getting switch message');
+    const msg = await this.switchStatusMessage.getText();
+    await takeScreenshotAndAddToReport('Switch message retrieved');
+    return msg;
   }
 
   get dropdownToggle() {
@@ -50,16 +67,20 @@ class FormsPage {
   }
 
   async selectDropdownOption(optionText) {
+    allureReporter.addStep(`Selecting "${optionText}" from dropdown`);
     await this.dropdownToggle.click();
     const option = $(`android=new UiSelector().text("${optionText}")`);
     await option.waitForDisplayed();
     await option.click();
+    await takeScreenshotAndAddToReport(`Dropdown option "${optionText}" selected`);
   }
 
   async clickButton(type) {
+    allureReporter.addStep(`Clicking on "${type}" button`);
     const button = $(`android=new UiSelector().text("${type}")`);
     await button.waitForDisplayed();
     await button.click();
+    await takeScreenshotAndAddToReport(`"${type}" button clicked`);
   }
 
   get popupMessage() {
@@ -67,8 +88,11 @@ class FormsPage {
   }
 
   async getPopupText() {
+    allureReporter.addStep('Retrieving popup message');
     await this.popupMessage.waitForDisplayed({ timeout: 5000 });
-    return await this.popupMessage.getText();
+    const msg = await this.popupMessage.getText();
+    await takeScreenshotAndAddToReport('Popup message retrieved');
+    return msg;
   }
 
   get okButton() {
@@ -76,7 +100,9 @@ class FormsPage {
   }
 
   async confirmPopup() {
+    allureReporter.addStep('Confirming popup');
     await this.okButton.click();
+    await takeScreenshotAndAddToReport('Popup confirmed');
   }
 }
 
