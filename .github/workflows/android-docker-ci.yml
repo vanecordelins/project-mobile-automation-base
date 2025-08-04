@@ -14,10 +14,9 @@ jobs:
 
     services:
       android-emulator:
-        image: budtmo/docker-android-x86-11.0
+        image: saucelabs/stt/android-emulator:latest
         ports:
           - 4723:4723
-          - 6080:6080
         options: >-
           --privileged
           --shm-size=2g
