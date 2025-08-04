@@ -1,4 +1,4 @@
-name: iOS Mobile Tests
+name: CI/CD - iOS Mobile Tests
 
 on:
   push:
@@ -8,10 +8,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  ios-tests:
-    name: Run iOS Tests
+  test-ios:
     runs-on: macos-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
 
     env:
       PLATFORM: ios
@@ -23,12 +22,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Create and Boot iOS Simulator
+      - name: Install Allure CLI
+        run: npm install -g allure-commandline
+
+      - name: Boot iOS Simulator
         run: |
           SIM_NAME="iPhone 14"
           RUNTIME=$(xcrun simctl list runtimes | grep -m1 -o "com.apple.CoreSimulator.SimRuntime.iOS-[0-9\-]*")
@@ -36,23 +38,21 @@ jobs:
           xcrun simctl boot "$DEVICE_ID"
           sleep 30
 
-      - name: Start Appium
-        run: npx appium --log-level error &
-        env:
-          PATH: $PATH:/usr/local/lib/node_modules/appium/node_modules/.bin
+      - name: Start Appium Server
+        run: |
+          npm run appium & npx wait-on http://localhost:4723/wd/hub/status
 
       - name: Run iOS Tests
         run: npm test
 
       - name: Generate Allure Report
         if: always()
-        run: |
-          npm run report
+        run: npm run report
         continue-on-error: true
 
       - name: Upload Allure Report (as artifact)
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report
+          name: allure-report-ios
           path: reports/allure-report
