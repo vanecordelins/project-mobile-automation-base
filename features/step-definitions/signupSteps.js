@@ -4,9 +4,7 @@ import SignUpPage from '../pages/SignUpPage.js';
 let testEmail = '';
 
 Given('I am at the sign up page', async () => {
-  await SignUpPage.open();
-  const timestamp = Date.now();
-  testEmail = `email_test_${timestamp}@test.com`;
+  testEmail = await SignUpPage.navigateAndGenerateEmail();
 });
 
 When('I set an email', async () => {
@@ -26,9 +24,7 @@ When('I click to sing up', async () => {
 });
 
 Then('I handle the success popup', async () => {
-  const popupText = await SignUpPage.getPopupMessage();
-  expect(popupText).toEqual('You successfully signed up!');
-  await SignUpPage.confirmPopup();
+  await SignUpPage.handleSuccessPopup();
 });
 
 Then('I login with the new signed up user', async () => {

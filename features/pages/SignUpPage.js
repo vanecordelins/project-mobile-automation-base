@@ -23,6 +23,19 @@ class SignUpPage {
     await takeScreenshotAndAddToReport('Sign Up Page opened');
   }
 
+  async navigateAndGenerateEmail() {
+    allureReporter.addStep('Navigating to Sign Up page and generating test email');
+
+    await this.open();
+
+    const timestamp = Date.now();
+    const generatedEmail = `email_test_${timestamp}@test.com`;
+
+    await takeScreenshotAndAddToReport(`Generated email: ${generatedEmail}`);
+
+    return generatedEmail;
+  }
+
   get emailInput() {
     return $('~input-email');
   }
@@ -91,12 +104,17 @@ class SignUpPage {
       : $('-ios predicate string:type == "XCUIElementTypeStaticText" AND name CONTAINS "You successfully signed up"');
   }
 
-  async getPopupMessage() {
-    allureReporter.addStep('Getting popup success message');
+  async handleSuccessPopup() {
+    allureReporter.addStep('Handling success popup after sign up');
+
     await this.popupMessage.waitForDisplayed({ timeout: 3000 });
     const message = await this.popupMessage.getText();
-    await takeScreenshotAndAddToReport('Popup message retrieved');
-    return message;
+
+    await takeScreenshotAndAddToReport(`Popup message retrieved: "${message}"`);
+    expect(message).toEqual('You successfully signed up!');
+
+    await this.okButton.click();
+    await takeScreenshotAndAddToReport('Popup confirmed');
   }
 
   get okButton() {

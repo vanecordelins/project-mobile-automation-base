@@ -15,7 +15,7 @@ Feature: Screen navigation
     Then I should be back on the home screen
 
   @positive
-  Scenario: Navigate at the Swipe page
+  Scenario: Navigate from the Swipe page to the Forms
     Given I am on the Swipe page
     When I click on the Home button
     Then I should be back on the home screen
