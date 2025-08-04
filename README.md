@@ -1,4 +1,4 @@
-# 🤖 Projeto de Automação Mobile com WebDriverIO + Appium
+# Projeto de Automação Mobile com WebDriverIO + Appium
 
 Este projeto realiza testes automatizados em um aplicativo mobile (Android e iOS) utilizando WebDriverIO, Appium e Cucumber. Os testes são estruturados no padrão Gherkin e seguem boas práticas de Page Object Model.
 
