@@ -40,7 +40,7 @@ jobs:
 
       - name: Start Appium Server
         run: |
-          npm run appium & npx wait-on http://localhost:4723/wd/hub/status
+          npm run appium & npx wait-on http://localhost:4723/status
 
       - name: Run iOS Tests
         run: npm test

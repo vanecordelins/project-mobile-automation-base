@@ -8,49 +8,55 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-android:
+  android-tests:
+    name: Run Android Tests
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 30
 
     env:
       PLATFORM: android
-      ANDROID_HOME: $HOME/android-sdk
-      PATH: $HOME/android-sdk/platform-tools:$HOME/android-sdk/emulator:$HOME/android-sdk/cmdline-tools/latest/bin:$PATH
 
     steps:
+      - name: Ensure tar is installed
+        run: sudo apt-get update && sudo apt-get install -y tar
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Allure CLI
-        run: npm install -g allure-commandline
-
-      - name: Setup Android SDK and Start Emulator
+      - name: Install Android SDK and Emulator
         run: |
-          sudo apt-get update
-          sudo apt-get install -y openjdk-11-jdk
+          sudo apt-get install -y unzip openjdk-11-jdk
           wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
-          unzip cmdline-tools.zip -d $ANDROID_HOME
-          mkdir -p $ANDROID_HOME/cmdline-tools/latest
-          mv $ANDROID_HOME/cmdline-tools/cmdline-tools/* $ANDROID_HOME/cmdline-tools/latest
+          unzip cmdline-tools.zip -d $HOME/android-sdk
+          mkdir -p $HOME/android-sdk/cmdline-tools/latest
+          mv $HOME/android-sdk/cmdline-tools/cmdline-tools/* $HOME/android-sdk/cmdline-tools/latest
+          export ANDROID_SDK_ROOT=$HOME/android-sdk
+          export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH
           yes | sdkmanager --licenses
           sdkmanager "platform-tools" "platforms;android-33" "system-images;android-33;google_apis;x86_64" "emulator"
           echo "no" | avdmanager create avd -n test -k "system-images;android-33;google_apis;x86_64" --device "pixel"
-          $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window &
+          $ANDROID_SDK_ROOT/emulator/emulator -avd test -no-audio -no-window &
           adb wait-for-device
           adb shell input keyevent 82
           sleep 30
+        env:
+          ANDROID_HOME: $HOME/android-sdk
+          PATH: $HOME/android-sdk/platform-tools:$HOME/android-sdk/emulator:$HOME/android-sdk/cmdline-tools/latest/bin:$PATH
 
-      - name: Start Appium Server
+      - name: Start Appium
         run: |
-          npm run appium & npx wait-on http://localhost:4723/wd/hub/status
+          npx appium --log-level error &
+          npx wait-on http://localhost:4723/status
+        env:
+          PATH: $PATH:/usr/local/lib/node_modules/appium/node_modules/.bin
 
       - name: Run Android Tests
         run: npm test
@@ -64,5 +70,5 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report-android
+          name: allure-report
           path: reports/allure-report
