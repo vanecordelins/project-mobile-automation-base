@@ -33,9 +33,9 @@ jobs:
       - name: Start Android Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
+          api-level: 30
           target: default
-          arch: x86
+          arch: x86_64
           profile: Nexus 6
           disable-animations: true
           script: |
@@ -49,7 +49,7 @@ jobs:
             done
             echo "Emulator booted."
 
-      - name: Restart ADB server (in case of device offline)
+      - name: Restart ADB server (optional, in case of offline)
         run: |
           adb kill-server
           adb start-server
