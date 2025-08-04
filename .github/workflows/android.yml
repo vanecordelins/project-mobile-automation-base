@@ -34,9 +34,26 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
+          target: default
+          arch: x86
           profile: Nexus 6
           disable-animations: true
-          script: echo "Emulator started"
+          script: |
+            echo "Waiting for emulator to boot..."
+            adb wait-for-device
+            boot_status=""
+            until [[ "$boot_status" == "1" ]]; do
+              boot_status=$(adb -e shell getprop sys.boot_completed | tr -d '\r')
+              echo "Boot status: $boot_status"
+              sleep 5
+            done
+            echo "Emulator booted."
+
+      - name: Restart ADB server (in case of device offline)
+        run: |
+          adb kill-server
+          adb start-server
+          adb devices
 
       - name: Start Appium Server
         run: |
