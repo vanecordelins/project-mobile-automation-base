@@ -1,5 +1,7 @@
+@login
 Feature: Login with valid credentials
 
+  @positive
   Scenario: Login with valid credentials
     Given I am on the login screen
     When I enter valid credentials

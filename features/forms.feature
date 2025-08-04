@@ -1,5 +1,7 @@
+@forms
 Feature: Forms
 
+  @positive 
   Scenario: Fill a form
     Given I access the Forms screen
     When I add data at the Input Field
@@ -7,13 +9,13 @@ Feature: Forms
     And I click at the Active button
     Then I should see a popup with the message "This button is active"
 
+  @positive 
   Scenario: Check input data at the Forms screen
     Given I access the Forms screen
     When I add data at the Input Field
     Then I should see the correct data displayed at the You have typed field
 
+  @positive @json
   Scenario: Run form tests using JSON data
     Given I access the Forms screen
     Then I fill the form using the data from the JSON file
-
-
