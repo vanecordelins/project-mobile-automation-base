@@ -10,6 +10,9 @@
     "test:android": "cross-env PLATFORM=android wdio run wdio.conf.mjs",
     "test:ios": "cross-env PLATFORM=ios wdio run wdio.conf.mjs",
 
+    "test:android:bs": "cross-env USE_BROWSERSTACK=true PLATFORM=android wdio run wdio.conf.mjs",
+    "test:ios:bs": "cross-env USE_BROWSERSTACK=true PLATFORM=ios wdio run wdio.conf.mjs",
+
     "report": "allure generate reports/allure-results --clean -o reports/allure-report && allure open reports/allure-report",
     "appium": "appium"
   },
