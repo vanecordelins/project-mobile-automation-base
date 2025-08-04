@@ -39,7 +39,7 @@ export const config = {
           'appium:deviceName': 'Google Pixel 7',
           'appium:platformVersion': '13.0',
           'appium:automationName': 'UiAutomator2',
-          'appium:app': process.env.BROWSERSTACK_APP_ID || 'bs://<android-app-id>',
+          'appium:app': process.env.BROWSERSTACK_APP_ID || 'bs://c9438e138db08f638d896b96c068f947c8a0bf69',
           'appium:autoGrantPermissions': true
         }
   ]
