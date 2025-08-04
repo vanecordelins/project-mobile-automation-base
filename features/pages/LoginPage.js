@@ -3,7 +3,9 @@ import { takeScreenshotAndAddToReport } from '../utils/screenshotHelper.js';
 
 class LoginPage {
   get loginMenuButton() {
-    return $('android=new UiSelector().text("Login")');
+    return browser.isAndroid
+      ? $('android=new UiSelector().text("Login")')
+      : $('~Login');
   }
 
   get emailInput() {
@@ -19,40 +21,44 @@ class LoginPage {
   }
 
   get successMessage() {
-    return $('android=new UiSelector().resourceId("android:id/message")');
+    return browser.isAndroid
+      ? $('android=new UiSelector().resourceId("android:id/message")')
+      : $('-ios predicate string:type == "XCUIElementTypeStaticText" AND name CONTAINS "You are logged in!"');
   }
 
   get okButton() {
-    return $('android=new UiSelector().resourceId("android:id/button1")');
+    return browser.isAndroid
+      ? $('android=new UiSelector().resourceId("android:id/button1")')
+      : $('~OK');
   }
 
   async open() {
     allureReporter.addStep('Click on Login Menu Button');
     await this.loginMenuButton.waitForDisplayed();
     await this.loginMenuButton.click();
-    await takeScreenshotAndAddToReport('Login screen opened');
+    await takeScreenshotAndAddToReport('Click on Login Menu Button');
   }
 
   async login(email, password) {
-    allureReporter.addStep('Enter valid email and password');
+    allureReporter.addStep('Add valid email and password');
     await this.emailInput.setValue(email);
     await this.passwordInput.setValue(password);
-    await takeScreenshotAndAddToReport('Credentials entered');
+    await takeScreenshotAndAddToReport('Add valid email and password');
   }
 
   async submitLogin() {
-    allureReporter.addStep('Click on login button');
+    allureReporter.addStep('Login button click');
     await this.loginButton.click();
-    await takeScreenshotAndAddToReport('Login button clicked');
+    await takeScreenshotAndAddToReport('Login button click');
   }
 
   async isLoggedIn() {
-    allureReporter.addStep('Check login success');
+    allureReporter.addStep('User is logged in');
     await this.successMessage.waitForDisplayed({ timeout: 5000 });
     const text = await this.successMessage.getText();
     const isSuccess = text.includes('You are logged in!');
-    await takeScreenshotAndAddToReport('Login result');
-    if (isSuccess) {
+    await takeScreenshotAndAddToReport('User is logged in');
+    if (isSuccess && (await this.okButton.isDisplayed())) {
       await this.okButton.click();
     }
     return isSuccess;

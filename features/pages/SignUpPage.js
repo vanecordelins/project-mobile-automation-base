@@ -3,11 +3,15 @@ import { takeScreenshotAndAddToReport } from '../utils/screenshotHelper.js';
 
 class SignUpPage {
   get loginButton() {
-    return $('android=new UiSelector().text("Login")');
+    return browser.isAndroid
+      ? $('android=new UiSelector().text("Login")')
+      : $('~Login');
   }
 
   get signUpLink() {
-    return $('android=new UiSelector().text("Sign up")');
+    return browser.isAndroid
+      ? $('android=new UiSelector().text("Sign up")')
+      : $('~Sign up');
   }
 
   async open() {
@@ -50,7 +54,9 @@ class SignUpPage {
   }
 
   get signUpButton() {
-    return $('android=new UiSelector().description("button-SIGN UP")');
+    return browser.isAndroid
+      ? $('android=new UiSelector().description("button-SIGN UP")')
+      : $('~button-SIGN UP');
   }
 
   async submitForm() {
@@ -61,7 +67,9 @@ class SignUpPage {
 
   async didLoginSucceed() {
     allureReporter.addStep('Checking if user is logged in');
-    const homeButton = $('android=new UiSelector().text("Home")');
+    const homeButton = browser.isAndroid
+      ? $('android=new UiSelector().text("Home")')
+      : $('~Home');
     const visible = await homeButton.isDisplayed();
     await takeScreenshotAndAddToReport('Login result');
     return visible;
@@ -69,7 +77,9 @@ class SignUpPage {
 
   async getErrorMessage(expectedText) {
     allureReporter.addStep(`Verifying error message: "${expectedText}"`);
-    const selector = $(`android=new UiSelector().text("${expectedText}")`);
+    const selector = browser.isAndroid
+      ? $(`android=new UiSelector().text("${expectedText}")`)
+      : $(`~${expectedText}`);
     await selector.waitForDisplayed({ timeout: 3000 });
     await takeScreenshotAndAddToReport(`Error message displayed: "${expectedText}"`);
     return await selector.getText();

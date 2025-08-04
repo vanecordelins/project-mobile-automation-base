@@ -3,16 +3,22 @@ import { takeScreenshotAndAddToReport } from '../utils/screenshotHelper.js';
 
 class HomePage {
   get homeScreenIndicator() {
-    return $('android=new UiSelector().text("WEBDRIVER")');
+    return browser.isAndroid
+      ? $('android=new UiSelector().text("WEBDRIVER")')
+      : $('~WEBDRIVER');
   }
 
   get homeButton() {
-    return $('android=new UiSelector().text("Home")');
+    return browser.isAndroid
+      ? $('android=new UiSelector().text("Home")')
+      : $('~Home');
   }
 
   async clickButton(btnText) {
     allureReporter.addStep(`Click on "${btnText}" button`);
-    const button = $(`~${btnText}`);
+    const button = browser.isAndroid
+      ? $(`android=new UiSelector().text("${btnText}")`)
+      : $(`~${btnText}`);
     await button.waitForDisplayed();
     await button.click();
     await takeScreenshotAndAddToReport(`Clicked "${btnText}" button`);

@@ -3,16 +3,20 @@ import { takeScreenshotAndAddToReport } from '../utils/screenshotHelper.js';
 
 class NavigationPage {
   get communityTitle() {
-    return $('android=new UiSelector().text("GREAT COMMUNITY")');
+    return browser.isAndroid
+      ? $('android=new UiSelector().text("GREAT COMMUNITY")')
+      : $('~GREAT COMMUNITY');
   }
 
   get jsFoundationTitle() {
-    return $('android=new UiSelector().text("JS.FOUNDATION")');
+    return browser.isAndroid
+      ? $('android=new UiSelector().text("JS.FOUNDATION")')
+      : $('~JS.FOUNDATION');
   }
 
   async swipeRight() {
     allureReporter.addStep('Performing swipe right gesture');
-    
+
     const { width, height } = await driver.getWindowRect();
     const startX = width * 0.8;
     const endX = width * 0.2;
@@ -35,8 +39,7 @@ class NavigationPage {
     ]);
 
     await driver.releaseActions();
-    await driver.pause(1500); // para garantir a renderização pós-swipe
-
+    await driver.pause(1500);
     await takeScreenshotAndAddToReport('Swipe right completed');
   }
 

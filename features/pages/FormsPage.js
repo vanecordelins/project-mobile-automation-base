@@ -3,7 +3,9 @@ import { takeScreenshotAndAddToReport } from '../utils/screenshotHelper.js';
 
 class FormsPage {
   get formsButton() {
-    return $('android=new UiSelector().text("Forms")');
+    return browser.isAndroid
+      ? $('android=new UiSelector().text("Forms")')
+      : $('~Forms');
   }
 
   async open() {
@@ -63,13 +65,17 @@ class FormsPage {
   }
 
   get dropdownToggle() {
-    return $('android=new UiSelector().resourceId("text_input")');
+    return browser.isAndroid
+      ? $('android=new UiSelector().resourceId("text_input")')
+      : $('~Dropdown');
   }
 
   async selectDropdownOption(optionText) {
     allureReporter.addStep(`Selecting "${optionText}" from dropdown`);
     await this.dropdownToggle.click();
-    const option = $(`android=new UiSelector().text("${optionText}")`);
+    const option = browser.isAndroid
+      ? $(`android=new UiSelector().text("${optionText}")`)
+      : $(`~${optionText}`);
     await option.waitForDisplayed();
     await option.click();
     await takeScreenshotAndAddToReport(`Dropdown option "${optionText}" selected`);
@@ -77,14 +83,18 @@ class FormsPage {
 
   async clickButton(type) {
     allureReporter.addStep(`Clicking on "${type}" button`);
-    const button = $(`android=new UiSelector().text("${type}")`);
+    const button = browser.isAndroid
+      ? $(`android=new UiSelector().text("${type}")`)
+      : $(`~${type}`);
     await button.waitForDisplayed();
     await button.click();
     await takeScreenshotAndAddToReport(`"${type}" button clicked`);
   }
 
   get popupMessage() {
-    return $('android=new UiSelector().resourceId("android:id/message")');
+    return browser.isAndroid
+      ? $('android=new UiSelector().resourceId("android:id/message")')
+      : $('-ios predicate string:type == "XCUIElementTypeStaticText" AND name CONTAINS "This button is active"');
   }
 
   async getPopupText() {
@@ -96,7 +106,9 @@ class FormsPage {
   }
 
   get okButton() {
-    return $('android=new UiSelector().resourceId("android:id/button1")');
+    return browser.isAndroid
+      ? $('android=new UiSelector().resourceId("android:id/button1")')
+      : $('~OK');
   }
 
   async confirmPopup() {
