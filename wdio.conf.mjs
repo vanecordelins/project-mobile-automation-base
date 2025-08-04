@@ -12,5 +12,10 @@ export const config = {
   cucumberOpts: {
     require: ['./features/step-definitions/*.js'],
     timeout: 60000
-  }
+  },
+  afterStep: async function (step, scenario, result) {
+  if (result.error) {
+    await browser.takeScreenshot();
+    }
+  },
 };

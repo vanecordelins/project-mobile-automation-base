@@ -8,7 +8,7 @@
     "appium": "appium"
   },
   "devDependencies": {
-    "@wdio/allure-reporter": "^8.25.2",
+    "@wdio/allure-reporter": "^8.43.0",
     "@wdio/appium-service": "^8.25.2",
     "@wdio/cli": "^8.25.2",
     "@wdio/cucumber-framework": "^9.18.0",
