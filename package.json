@@ -3,15 +3,14 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "test": "cross-env PLATFORM=android wdio run wdio.conf.mjs",
-    "test:feature": "cross-env PLATFORM=android wdio run wdio.conf.mjs --spec",
-    "test:tag": "cross-env PLATFORM=android wdio run wdio.conf.mjs --cucumberOpts.tagExpression",
+    "test": "cross-env PLATFORM=android wdio run configs/wdio.local.conf.mjs",
+    "test:android": "cross-env PLATFORM=android wdio run configs/wdio.local.conf.mjs",
+    "test:ios": "cross-env PLATFORM=ios wdio run configs/wdio.local.conf.mjs",
 
-    "test:android": "cross-env PLATFORM=android wdio run wdio.conf.mjs",
-    "test:ios": "cross-env PLATFORM=ios wdio run wdio.conf.mjs",
+    "test:browserstack": "wdio run configs/wdio.browserstack.conf.mjs",
 
-    "test:android:bs": "cross-env USE_BROWSERSTACK=true PLATFORM=android wdio run wdio.conf.mjs",
-    "test:ios:bs": "cross-env USE_BROWSERSTACK=true PLATFORM=ios wdio run wdio.conf.mjs",
+    "test:feature": "cross-env PLATFORM=android wdio run configs/wdio.local.conf.mjs --spec",
+    "test:tag": "cross-env PLATFORM=android wdio run configs/wdio.local.conf.mjs --cucumberOpts.tagExpression",
 
     "report": "allure generate reports/allure-results --clean -o reports/allure-report && allure open reports/allure-report",
     "appium": "appium"
