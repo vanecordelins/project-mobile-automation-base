@@ -18,7 +18,7 @@ export const config = {
     process.env.PLATFORM === 'ios'
       ? {
           platformName: 'iOS',
-          'appium:platformVersion': '16.2',
+          'appium:platformVersion': '17.5',
           'appium:deviceName': 'iPhone 14',
           'appium:automationName': 'XCUITest',
           'appium:app': process.cwd() + '/apps/wdiodemoapp.app',
