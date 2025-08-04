@@ -49,6 +49,14 @@ class NavigationPage {
     await takeScreenshotAndAddToReport('Community card visibility check');
     return visible;
   }
+
+  async isJSFoundationVisible() {
+    allureReporter.addStep('Verifying if JS Foundation card is visible');
+    const visible = await this.jsFoundationTitle.isDisplayed();
+    await takeScreenshotAndAddToReport('JS Foundation card visibility check');
+    return visible;
+  }
+
 }
 
 export default new NavigationPage();

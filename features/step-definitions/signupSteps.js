@@ -26,14 +26,10 @@ When('I click to sing up', async () => {
 });
 
 Then('I handle the success popup', async () => {
-  const alertMessage = await $('android=new UiSelector().resourceId("android:id/message")');
-  const alertText = await alertMessage.getText();
-  expect(alertText).toEqual('You successfully signed up!');
-
-  const okButton = await $('android=new UiSelector().resourceId("android:id/button1")');
-  await okButton.click();
+  const popupText = await SignUpPage.getPopupMessage();
+  expect(popupText).toEqual('You successfully signed up!');
+  await SignUpPage.confirmPopup();
 });
-
 
 Then('I login with the new signed up user', async () => {
   expect(await SignUpPage.didLoginSucceed()).toBeTruthy();

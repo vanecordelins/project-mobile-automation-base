@@ -116,6 +116,40 @@ class FormsPage {
     await this.okButton.click();
     await takeScreenshotAndAddToReport('Popup confirmed');
   }
+
+  async validateTypedText(expectedText) {
+    const result = await this.getTypedText();
+    expect(result).toContain(expectedText);
+    await takeScreenshotAndAddToReport('Validating typed text');
+  }
+
+  async validatePopupMessage(expectedMessage) {
+    const popupText = await this.getPopupText();
+    expect(popupText).toContain(expectedMessage);
+    await this.confirmPopup();
+    await takeScreenshotAndAddToReport('Popup message validated');
+  }
+
+  async fillCompleteForm(data) {
+    await this.fillInputField(data.inputText);
+    await this.validateTypedText(data.inputText);
+
+    const switchStatus = await this.isSwitchOn();
+    if (switchStatus !== data.switch) {
+      await this.toggleSwitch();
+    }
+
+    const switchLabel = await this.getSwitchMessage();
+    const expected = data.switch
+      ? 'Click to turn the switch OFF'
+      : 'Click to turn the switch ON';
+    expect(switchLabel).toBe(expected);
+    await takeScreenshotAndAddToReport('Switch label validated');
+
+    await this.selectDropdownOption(data.dropdown);
+    await this.clickButton(data.button);
+    await this.validatePopupMessage(`This button is ${data.button.toLowerCase()}`);
+  }
 }
 
 export default new FormsPage();

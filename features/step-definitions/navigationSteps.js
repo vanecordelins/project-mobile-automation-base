@@ -18,10 +18,12 @@ Then('I click on the Sign Up button', async () => {
 });
 
 Then('I should see the sign up page', async () => {
-  const title = $('android=new UiSelector().text("Login / Sign up Form")');
-  await expect(title).toBeDisplayed();
-});
+  const title = browser.isAndroid
+    ? $('android=new UiSelector().text("Login / Sign up Form")')
+    : $('~Login / Sign up Form');
 
+  await expect(await title.isDisplayed()).toBeTruthy();
+});
 
 Given('I am on the sign up page', async () => {
   await SignUpPage.open();
@@ -40,7 +42,10 @@ Given('I am on the Forms screen', async () => {
 });
 
 Given('I am on the Swipe page', async () => {
-  const swipeTab = $('android=new UiSelector().text("Swipe")');
+  const swipeTab = browser.isAndroid
+    ? $('android=new UiSelector().text("Swipe")')
+    : $('~Swipe');
+
   await swipeTab.waitForDisplayed();
   await swipeTab.click();
 });

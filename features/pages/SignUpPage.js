@@ -84,6 +84,33 @@ class SignUpPage {
     await takeScreenshotAndAddToReport(`Error message displayed: "${expectedText}"`);
     return await selector.getText();
   }
+
+    get popupMessage() {
+    return browser.isAndroid
+      ? $('android=new UiSelector().resourceId("android:id/message")')
+      : $('-ios predicate string:type == "XCUIElementTypeStaticText" AND name CONTAINS "You successfully signed up"');
+  }
+
+  async getPopupMessage() {
+    allureReporter.addStep('Getting popup success message');
+    await this.popupMessage.waitForDisplayed({ timeout: 3000 });
+    const message = await this.popupMessage.getText();
+    await takeScreenshotAndAddToReport('Popup message retrieved');
+    return message;
+  }
+
+  get okButton() {
+    return browser.isAndroid
+      ? $('android=new UiSelector().resourceId("android:id/button1")')
+      : $('~OK');
+  }
+
+  async confirmPopup() {
+    allureReporter.addStep('Confirming popup');
+    await this.okButton.click();
+    await takeScreenshotAndAddToReport('Popup confirmed');
+  }
+
 }
 
 export default new SignUpPage();
