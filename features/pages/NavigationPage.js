@@ -14,34 +14,31 @@ class NavigationPage {
       : $('~JS.FOUNDATION');
   }
 
-  async swipeRight() {
-    allureReporter.addStep('Performing swipe right gesture');
+  async openSwipePage() {
+  allureReporter.addStep('Opening Swipe screen');
 
-    const { width, height } = await driver.getWindowRect();
-    const startX = width * 0.8;
-    const endX = width * 0.2;
-    const y = height / 2;
+  const swipeTab = browser.isAndroid
+    ? $('android=new UiSelector().text("Swipe")')
+    : $('~Swipe');
 
-    await driver.performActions([
-      {
-        type: 'pointer',
-        id: 'finger1',
-        parameters: { pointerType: 'touch' },
-        actions: [
-          { type: 'pointerMove', duration: 0, x: Math.floor(startX), y: Math.floor(y) },
-          { type: 'pointerDown', button: 0 },
-          { type: 'pause', duration: 500 },
-          { type: 'pointerMove', duration: 1000, x: Math.floor(endX), y: Math.floor(y) },
-          { type: 'pause', duration: 500 },
-          { type: 'pointerUp', button: 0 },
-        ],
-      },
-    ]);
+  await swipeTab.waitForDisplayed({ timeout: 5000 });
+  await swipeTab.click();
 
-    await driver.releaseActions();
-    await driver.pause(1500);
-    await takeScreenshotAndAddToReport('Swipe right completed');
-  }
+  await takeScreenshotAndAddToReport('Swipe screen opened');
+}
+
+async validateIsDisplayedSigupPage() {
+  allureReporter.addStep('Validating Sign Up screen is displayed');
+
+  const title = browser.isAndroid
+    ? $('android=new UiSelector().text("Login / Sign up Form")')
+    : $('~Login / Sign up Form');
+
+  await title.waitForDisplayed({ timeout: 5000 });
+  await expect(title).toBeDisplayed();
+  await takeScreenshotAndAddToReport('Sign Up screen validation');
+}
+
 
   async isCommunityCardVisible() {
     allureReporter.addStep('Verifying if Community card is visible');

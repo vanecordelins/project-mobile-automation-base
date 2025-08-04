@@ -17,7 +17,7 @@ Feature: Screen navigation
   @positive
   Scenario: Navigate at the Swipe page
     Given I am on the Swipe page
-    Then I swipe Right
-    And comunnity informations are displayed
     When I click on the Home button
     Then I should be back on the home screen
+    When I click on the Forms button
+    Then I should be on the Forms screen

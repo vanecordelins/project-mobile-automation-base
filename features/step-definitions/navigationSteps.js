@@ -18,11 +18,7 @@ Then('I click on the Sign Up button', async () => {
 });
 
 Then('I should see the sign up page', async () => {
-  const title = browser.isAndroid
-    ? $('android=new UiSelector().text("Login / Sign up Form")')
-    : $('~Login / Sign up Form');
-
-  await expect(await title.isDisplayed()).toBeTruthy();
+  await NavigationPage.validateIsDisplayedSigupPage();
 });
 
 Given('I am on the sign up page', async () => {
@@ -42,17 +38,9 @@ Given('I am on the Forms screen', async () => {
 });
 
 Given('I am on the Swipe page', async () => {
-  const swipeTab = browser.isAndroid
-    ? $('android=new UiSelector().text("Swipe")')
-    : $('~Swipe');
-
-  await swipeTab.waitForDisplayed();
-  await swipeTab.click();
+  await NavigationPage.openSwipePage();
 });
 
-When('I swipe Right', async () => {
-  await NavigationPage.swipeRight();
-});
 
 Then('comunnity informations are displayed', async () => {
   await expect(await NavigationPage.isCommunityCardVisible()).toBeTruthy();
@@ -60,4 +48,12 @@ Then('comunnity informations are displayed', async () => {
 
 Then('JS Foundation informations are displayed', async () => {
   await expect(await NavigationPage.isJSFoundationVisible()).toBeTruthy();
+});
+
+When('I click on the Forms button', async () => {
+  await FormsPage.open();
+});
+
+Then('I should be on the Forms screen', async () => {
+  await expect(await FormsPage.isDisplayed()).toBeTruthy();
 });

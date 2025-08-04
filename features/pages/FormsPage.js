@@ -15,6 +15,18 @@ class FormsPage {
     await takeScreenshotAndAddToReport('Forms screen opened');
   }
 
+  async isDisplayed() {
+  allureReporter.addStep('Validating Forms screen is displayed');
+
+  const titleElement = browser.isAndroid
+    ? $('android=new UiSelector().text("Form components")')
+    : $('~Form components');
+
+  await titleElement.waitForDisplayed({ timeout: 5000 });
+  await takeScreenshotAndAddToReport('Forms screen validation');
+  return titleElement.isDisplayed();
+}
+
   get inputField() {
     return $('~text-input');
   }
