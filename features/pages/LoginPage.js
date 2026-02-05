@@ -1,63 +1,60 @@
-import allureReporter from '@wdio/allure-reporter';
-import { takeScreenshotAndAddToReport } from '../utils/screenshotHelper.js';
+import { createTextSelector, createAccessibilitySelector, createResourceSelector } from '../utils/selectorHelper.js';
+import { logStepWithScreenshot } from '../utils/screenshotHelper.js';
+import { TIMEOUTS, ANDROID_IDS, IOS_SELECTORS } from '../utils/constants.js';
 
 class LoginPage {
   get loginMenuButton() {
-    return browser.isAndroid
-      ? $('android=new UiSelector().text("Login")')
-      : $('~Login');
+    return $(createTextSelector("Login"));
   }
 
   get emailInput() {
-    return $('~input-email');
+    return $(createAccessibilitySelector('input-email'));
   }
 
   get passwordInput() {
-    return $('~input-password');
+    return $(createAccessibilitySelector('input-password'));
   }
 
   get loginButton() {
-    return $('~button-LOGIN');
+    return $(createAccessibilitySelector('button-LOGIN'));
   }
 
   get successMessage() {
-    return browser.isAndroid
-      ? $('android=new UiSelector().resourceId("android:id/message")')
-      : $('-ios predicate string:type == "XCUIElementTypeStaticText" AND name CONTAINS "You are logged in!"');
+    return $(createResourceSelector(
+      ANDROID_IDS.ALERT_MESSAGE,
+      'type == "XCUIElementTypeStaticText" AND name CONTAINS "You are logged in!"'
+    ));
   }
 
   get okButton() {
-    return browser.isAndroid
-      ? $('android=new UiSelector().resourceId("android:id/button1")')
-      : $('~OK');
+    return $(createResourceSelector(
+      ANDROID_IDS.ALERT_BUTTON_POSITIVE,
+      IOS_SELECTORS.ALERT_OK.replace('~', '')
+    ));
   }
 
   async open() {
-    allureReporter.addStep('Click on Login Menu Button');
+    await logStepWithScreenshot('Click on Login Menu Button');
     await this.loginMenuButton.waitForDisplayed();
     await this.loginMenuButton.click();
-    await takeScreenshotAndAddToReport('Click on Login Menu Button');
   }
 
   async login(email, password) {
-    allureReporter.addStep('Add valid email and password');
+    await logStepWithScreenshot('Add valid email and password');
     await this.emailInput.setValue(email);
     await this.passwordInput.setValue(password);
-    await takeScreenshotAndAddToReport('Add valid email and password');
   }
 
   async submitLogin() {
-    allureReporter.addStep('Login button click');
+    await logStepWithScreenshot('Login button click');
     await this.loginButton.click();
-    await takeScreenshotAndAddToReport('Login button click');
   }
 
   async isLoggedIn() {
-    allureReporter.addStep('User is logged in');
-    await this.successMessage.waitForDisplayed({ timeout: 5000 });
+    await logStepWithScreenshot('User is logged in');
+    await this.successMessage.waitForDisplayed({ timeout: TIMEOUTS.ELEMENT_WAIT });
     const text = await this.successMessage.getText();
     const isSuccess = text.includes('You are logged in!');
-    await takeScreenshotAndAddToReport('User is logged in');
     if (isSuccess && (await this.okButton.isDisplayed())) {
       await this.okButton.click();
     }

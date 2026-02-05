@@ -127,8 +127,8 @@ This plan breaks down the shared utilities consolidation feature into executable
 
 ### Phase 3: Migration - Page Object Refactoring
 
-- [ ] 6. Refactor HomePage (simplest, 3 methods)
-- [ ] 6.1 Migrate HomePage to use utilities
+- [x] 6. Refactor HomePage (simplest, 3 methods)
+- [x] 6.1 Migrate HomePage to use utilities
   - Replace platform conditionals in getters with selector utility calls
   - Replace manual Allure and screenshot calls with utility functions
   - Maintain existing method signatures and return types
@@ -142,8 +142,8 @@ This plan breaks down the shared utilities consolidation feature into executable
   - Confirm all tests pass without behavioral changes
   - _Requirements: 7.7, 9.1, 9.2, 9.3, 9.4, 9.5, 9.7_
 
-- [ ] 7. Refactor NavigationPage (4 methods)
-- [ ] 7.1 Migrate NavigationPage to use utilities
+- [x] 7. Refactor NavigationPage (4 methods)
+- [x] 7.1 Migrate NavigationPage to use utilities
   - Replace platform conditionals with selector utility function calls
   - Update Allure integration to use combined utility functions
   - Preserve existing method behavior and signatures
@@ -156,8 +156,8 @@ This plan breaks down the shared utilities consolidation feature into executable
   - Verify screenshot capture functions correctly
   - _Requirements: 7.7, 9.1, 9.2, 9.4, 9.5, 9.7_
 
-- [ ] 8. Refactor LoginPage (6 methods)
-- [ ] 8.1 Migrate LoginPage to use utilities or extend BasePage
+- [x] 8. Refactor LoginPage (6 methods)
+- [x] 8.1 Migrate LoginPage to use utilities or extend BasePage
   - Choose migration strategy: direct utility imports OR BasePage inheritance
   - Replace all platform conditionals and manual Allure calls
   - Maintain method signatures for backward compatibility with step definitions
@@ -170,8 +170,8 @@ This plan breaks down the shared utilities consolidation feature into executable
   - Check Allure report includes all steps and screenshots
   - _Requirements: 7.7, 9.1, 9.2, 9.4, 9.5, 9.7_
 
-- [ ] 9. Refactor SignUpPage (9 methods)
-- [ ] 9.1 Migrate SignUpPage to use utilities or extend BasePage
+- [x] 9. Refactor SignUpPage (9 methods)
+- [x] 9.1 Migrate SignUpPage to use utilities or extend BasePage
   - Apply chosen migration strategy consistently
   - Replace platform selectors, Allure calls, and screenshot captures
   - Preserve email generation logic and popup handling
@@ -185,8 +185,8 @@ This plan breaks down the shared utilities consolidation feature into executable
   - Check Allure reports for complete step coverage
   - _Requirements: 7.7, 9.1, 9.2, 9.3, 9.4, 9.5, 9.7_
 
-- [ ] 10. Refactor FormsPage (most complex, 15 methods)
-- [ ] 10.1 Migrate FormsPage to use utilities or extend BasePage
+- [x] 10. Refactor FormsPage (most complex, 15 methods)
+- [x] 10.1 Migrate FormsPage to use utilities or extend BasePage
   - Apply migration strategy to all 15 methods
   - Replace platform conditionals in dropdown, switch, and button interactions
   - Update complex form filling method to use utilities throughout
